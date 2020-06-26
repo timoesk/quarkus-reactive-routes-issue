@@ -37,11 +37,11 @@ public class ReactiveRoutesTest {
     @Test
     public void blockingWithRouterTest() {
         requests("/blocking-with-router");
+        // Concurrent request limited by POOL
         Assertions.assertEquals(10, concurrent.getMax());
     }
 
     private void requests(String url) {
-        // Concurrent request limited by POOL
         POOL.submit(() -> IntStream.range(0, 40).parallel().forEach(i -> request(url))).join();
     }
 
